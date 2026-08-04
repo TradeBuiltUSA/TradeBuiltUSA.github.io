@@ -1,0 +1,127 @@
+/* TradeBuilt USA — shared styling for the privacy and support pages.
+   Dark, to match the app. Self-contained: no fonts or scripts fetched from anywhere. */
+
+:root {
+  --red: #DA1E1A;
+  --ink: #0C0C0D;
+  --raised: #17171A;
+  --line: #2A2A2E;
+  --text: #EDEDEF;
+  --muted: #9A9AA2;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0 20px 64px;
+  background: var(--ink);
+  color: var(--text);
+  font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+.wrap { max-width: 680px; margin: 0 auto; }
+
+/* Header ------------------------------------------------------------------ */
+
+header {
+  padding: 48px 0 28px;
+  text-align: center;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 36px;
+}
+
+header img {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.tagline {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* Type -------------------------------------------------------------------- */
+
+h1 {
+  font-size: 30px;
+  line-height: 1.2;
+  margin: 0 0 6px;
+  letter-spacing: -0.02em;
+}
+
+.updated {
+  margin: 0 0 32px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+h2 {
+  font-size: 20px;
+  margin: 38px 0 10px;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 17px;
+  margin: 26px 0 6px;
+  color: var(--text);
+}
+
+p { margin: 0 0 14px; }
+
+a { color: var(--red); text-decoration: none; border-bottom: 1px solid rgba(218, 30, 26, 0.4); }
+a:hover { border-bottom-color: var(--red); }
+
+strong { font-weight: 650; }
+
+/* The one-line summary that opens the privacy policy. */
+.lede {
+  background: var(--raised);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--red);
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin: 0 0 30px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* The two big links on the landing page. */
+.cards { display: grid; gap: 14px; margin: 34px 0; }
+
+.card {
+  display: block;
+  background: var(--raised);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px 22px;
+  color: var(--text);
+  border-bottom: 1px solid var(--line);
+}
+.card:hover { border-color: var(--red); }
+.card .card-title { font-size: 18px; font-weight: 650; margin: 0 0 4px; }
+.card .card-sub { color: var(--muted); font-size: 15px; margin: 0; }
+
+/* Footer ------------------------------------------------------------------ */
+
+footer {
+  margin-top: 56px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+footer .veteran { font-weight: 600; display: block; }
+
+nav.back { margin-bottom: 4px; font-size: 15px; }
