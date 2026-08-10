@@ -32,16 +32,22 @@ header {
   margin-bottom: 36px;
 }
 
+/* The wordmark with its letters filled, the same file the app's home screen carries.
+   The splash screen's copy draws TRADE as outlines over nothing, so on this background
+   the letters go black. This one is cropped to the glyphs, hence the tighter width. */
 header img {
   width: 100%;
-  max-width: 320px;
+  max-width: 280px;
   height: auto;
   display: block;
   margin: 0 auto;
 }
 
+/* No underline on the logo, which is a link back to the landing page on the inner two. */
+header a { border-bottom: none; }
+
 .tagline {
-  margin: 14px 0 0;
+  margin: 18px 0 0;
   color: var(--muted);
   font-size: 19px;
   font-weight: 500;
