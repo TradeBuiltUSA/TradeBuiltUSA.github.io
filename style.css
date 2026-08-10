@@ -171,7 +171,13 @@ strong { font-weight: 650; }
   backdrop-filter: blur(20px) saturate(140%);
 }
 
-/* The two big links on the landing page ----------------------------------- */
+/* The landing page ---------------------------------------------------------
+
+   Its two paragraphs are centered, which the privacy and support pages must not
+   inherit: centering a page of policy would cost every line its left edge, and
+   the left edge is what the eye returns to on each new line. The landing page is
+   four short blocks under a centered mark, so it reads as one column instead. */
+.home > p { text-align: center; }
 
 .cards { display: grid; gap: 14px; margin: 34px 0; }
 
