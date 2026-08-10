@@ -1,5 +1,7 @@
-/* TradeBuilt USA — shared styling for the privacy and support pages.
-   Dark, to match the app. Self-contained: no fonts or scripts fetched from anywhere. */
+/* TradeBuilt USA — shared styling for the landing, privacy, and support pages.
+   Dark, to match the app, and built out of the app's own parts: its wallpaper, its
+   machined seam, its glass cards, and the breath its logo runs on the home screen.
+   Self-contained: no fonts or scripts fetched from anywhere. */
 
 :root {
   --red: #DA1E1A;
@@ -8,6 +10,14 @@
   --line: #2A2A2E;
   --text: #EDEDEF;
   --muted: #9A9AA2;
+
+  /* The app's card: a translucent plate over the artwork, held by a white hairline.
+     CalculatorCard.swift draws ultraThinMaterial with a 12% white stroke at radius 16. */
+  --glass: rgba(23, 23, 26, 0.62);
+  --glass-edge: rgba(255, 255, 255, 0.12);
+
+  /* One curve for everything that moves, so nothing arrives on its own schedule. */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 * { box-sizing: border-box; }
@@ -21,16 +31,67 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 
+/* Wallpaper ---------------------------------------------------------------- */
+
+/* The app's own artwork, sat behind the page the way ArtworkBackground.swift sits
+   behind every screen: full-bleed, cropped rather than stretched, and scrimmed
+   heaviest through the middle so body copy stays readable while the streaks still
+   read at full strength top and bottom.
+
+   Fixed rather than scrolled, because the app's wallpaper doesn't travel with the
+   content either. It's a pseudo-element instead of background-attachment: fixed,
+   which iOS Safari renders at the wrong scale. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.30) 0%,
+      rgba(0, 0, 0, 0.42) 16%,
+      rgba(0, 0, 0, 0.72) 40%,
+      rgba(0, 0, 0, 0.72) 78%,
+      rgba(0, 0, 0, 0.40) 100%
+    ),
+    url("/artwork.png") center / cover no-repeat,
+    var(--ink);
+}
+
 .wrap { max-width: 680px; margin: 0 auto; }
+
+/* The machined seam ------------------------------------------------------- */
+
+/* HairlineRule.swift, in CSS: a lit hairline over a shadow hairline, both falling
+   off to nothing at the edges. The bevel is what separates it from a plain border,
+   and the falloff is what keeps it from butting into the edges of the column. */
+.seam,
+header::after,
+footer::before {
+  content: "";
+  display: block;
+  height: 2px;
+  background:
+    linear-gradient(to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.30) 50%,
+      rgba(255, 255, 255, 0) 100%) top / 100% 1px no-repeat,
+    linear-gradient(to right,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.40) 50%,
+      rgba(0, 0, 0, 0) 100%) bottom / 100% 1px no-repeat;
+}
 
 /* Header ------------------------------------------------------------------ */
 
 header {
   padding: 48px 0 28px;
   text-align: center;
-  border-bottom: 1px solid var(--line);
   margin-bottom: 36px;
 }
+
+header::after { margin-top: 28px; }
 
 /* The wordmark with its letters filled, the same file the app's home screen carries.
    The splash screen's copy draws TRADE as outlines over nothing, so on this background
@@ -41,10 +102,13 @@ header img {
   height: auto;
   display: block;
   margin: 0 auto;
+  /* The home screen breathes the same mark at the same rate: HomeView.swift asks
+     Pulse for a 3.6s period and 4% amplitude. */
+  animation: breathe 3.6s var(--ease) infinite;
 }
 
 /* No underline on the logo, which is a link back to the landing page on the inner two. */
-header a { border-bottom: none; }
+header a { border-bottom: none; display: block; }
 
 .tagline {
   margin: 18px 0 0;
@@ -83,36 +147,59 @@ h3 {
 
 p { margin: 0 0 14px; }
 
-a { color: var(--red); text-decoration: none; border-bottom: 1px solid rgba(218, 30, 26, 0.4); }
+a {
+  color: var(--red);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(218, 30, 26, 0.4);
+  transition: border-bottom-color 0.18s var(--ease), color 0.18s var(--ease);
+}
 a:hover { border-bottom-color: var(--red); }
 
 strong { font-weight: 650; }
 
 /* The one-line summary that opens the privacy policy. */
 .lede {
-  background: var(--raised);
-  border: 1px solid var(--line);
+  background: var(--glass);
+  border: 1px solid var(--glass-edge);
   border-left: 3px solid var(--red);
   border-radius: 8px;
   padding: 16px 18px;
   margin: 0 0 30px;
   font-size: 18px;
   font-weight: 600;
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(20px) saturate(140%);
 }
 
-/* The two big links on the landing page. */
+/* The two big links on the landing page ----------------------------------- */
+
 .cards { display: grid; gap: 14px; margin: 34px 0; }
 
 .card {
   display: block;
-  background: var(--raised);
-  border: 1px solid var(--line);
-  border-radius: 12px;
+  background: var(--glass);
+  border: 1px solid var(--glass-edge);
+  border-radius: 16px;
   padding: 20px 22px;
   color: var(--text);
-  border-bottom: 1px solid var(--line);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(20px) saturate(140%);
+  transition:
+    transform 0.22s var(--ease),
+    border-color 0.22s var(--ease),
+    box-shadow 0.22s var(--ease);
 }
-.card:hover { border-color: var(--red); }
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: var(--red);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(218, 30, 26, 0.25);
+}
+
+/* Under a thumb the card presses in rather than lifting, which is the whole
+   difference between a pointer hovering over something and a finger on it. */
+.card:active { transform: translateY(0) scale(0.99); transition-duration: 0.09s; }
+
 .card .card-title { font-size: 18px; font-weight: 650; margin: 0 0 4px; }
 .card .card-sub { color: var(--muted); font-size: 15px; margin: 0; }
 
@@ -120,14 +207,65 @@ strong { font-weight: 650; }
 
 footer {
   margin-top: 56px;
-  padding-top: 22px;
-  border-top: 1px solid var(--line);
   text-align: center;
   color: var(--muted);
   font-size: 13px;
   line-height: 1.7;
 }
 
+footer::before { margin-bottom: 22px; }
+
 footer .veteran { font-weight: 600; display: block; }
 
 nav.back { margin-bottom: 4px; font-size: 15px; }
+
+/* Motion ------------------------------------------------------------------ */
+
+/* 1 -> 1.04 -> 1, the shape Pulse.swift gets out of a cosine. */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+/* Everything above the fold arrives from just below where it lands, a beat apart,
+   so the page assembles in the order you'd read it. */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+
+header,
+.wrap > p,
+.cards,
+footer,
+nav.back,
+h1,
+h2,
+h3,
+.updated,
+.lede {
+  animation: rise 0.5s var(--ease) both;
+}
+
+header { animation-delay: 0.02s; }
+nav.back { animation-delay: 0.08s; }
+h1 { animation-delay: 0.10s; }
+.updated { animation-delay: 0.14s; }
+.lede { animation-delay: 0.18s; }
+.cards { animation-delay: 0.20s; }
+footer { animation-delay: 0.26s; }
+
+/* The body of the inner two pages arrives as one block rather than line by line.
+   Headings and paragraphs share a delay on purpose: staggering them lets a heading
+   land ahead of the copy underneath it, which reads as a stutter, not a sequence. */
+.wrap > p, h2, h3 { animation-delay: 0.14s; }
+
+/* Honored by stopping outright rather than by moving more slowly: a motion setting
+   is a request for no motion, not for gentler motion. Same call the app makes. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  header img { transform: none; }
+}
