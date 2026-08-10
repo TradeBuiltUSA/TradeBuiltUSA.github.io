@@ -133,9 +133,15 @@ h1 {
   font-size: 15px;
 }
 
+/* Ruled, so a long document reads as sections rather than as one column of text you
+   scroll through. A plain hairline rather than the two-tone seam: the seam marks where
+   the page turns over, and spending it on every heading would cost it that meaning. */
 h2 {
   font-size: 20px;
-  margin: 38px 0 10px;
+  margin: 38px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+  color: var(--red);
   letter-spacing: -0.01em;
 }
 
@@ -146,6 +152,15 @@ h3 {
 }
 
 p { margin: 0 0 14px; }
+
+/* The limitation of liability, set in caps because a disclaimer of this kind has to
+   be conspicuous to do its job. Caps at body settings run together, so this one gets
+   the tracking and leading back that the capitals cost it. */
+.conspicuous {
+  letter-spacing: 0.02em;
+  line-height: 1.75;
+  font-weight: 550;
+}
 
 a {
   color: var(--red);
@@ -181,12 +196,17 @@ strong { font-weight: 650; }
 
 .cards { display: grid; gap: 14px; margin: 34px 0; }
 
+/* CalculatorCard.swift laid out sideways the same way: a tinted glyph on its own
+   plate, the name and the line under it, then the chevron that says this goes
+   somewhere. Without those two the card is a bordered box with text in it. */
 .card {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 14px;
   background: var(--glass);
   border: 1px solid var(--glass-edge);
   border-radius: 16px;
-  padding: 20px 22px;
+  padding: 16px 18px;
   color: var(--text);
   -webkit-backdrop-filter: blur(20px) saturate(140%);
   backdrop-filter: blur(20px) saturate(140%);
@@ -206,8 +226,37 @@ strong { font-weight: 650; }
    difference between a pointer hovering over something and a finger on it. */
 .card:active { transform: translateY(0) scale(0.99); transition-duration: 0.09s; }
 
-.card .card-title { font-size: 18px; font-weight: 650; margin: 0 0 4px; }
-.card .card-sub { color: var(--muted); font-size: 15px; margin: 0; }
+/* 40 square at radius 10 on a 12% white plate, which is the app's icon slot.
+   The app gives every tile its own hue; the site has three colors and the glyph
+   takes the red, so nothing on the page is a color the mark isn't already. */
+.card-icon {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--red);
+}
+
+.card-icon svg { width: 22px; height: 22px; display: block; }
+
+.card-text { flex: 1 1 auto; min-width: 0; }
+
+.card .card-title { display: block; font-size: 18px; font-weight: 650; margin: 0 0 2px; }
+.card .card-sub { display: block; color: var(--muted); font-size: 15px; margin: 0; }
+
+/* Takes a step toward the page it opens when the pointer arrives. */
+.card-chevron {
+  flex: none;
+  width: 15px;
+  height: 15px;
+  color: rgba(237, 237, 239, 0.35);
+  transition: transform 0.22s var(--ease), color 0.22s var(--ease);
+}
+
+.card:hover .card-chevron { transform: translateX(3px); color: var(--text); }
 
 /* Footer ------------------------------------------------------------------ */
 
