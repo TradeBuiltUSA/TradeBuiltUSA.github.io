@@ -153,6 +153,12 @@ h3 {
 
 p { margin: 0 0 14px; }
 
+/* The markers take the red, so a list reads as part of the page rather than as
+   something the browser drew. */
+ul { margin: 0 0 14px; padding-left: 22px; }
+li { margin: 0 0 6px; }
+li::marker { color: var(--red); }
+
 /* The limitation of liability, set in caps because a disclaimer of this kind has to
    be conspicuous to do its job. Caps at body settings run together, so this one gets
    the tracking and leading back that the capitals cost it. */
